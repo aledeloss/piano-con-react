@@ -1,94 +1,114 @@
-// TAREAS  para armar registro y replay de melodías:
-// - Armar un array de melodía 
-// - Agregar a. melodía, b. botón de play y c. botón de volver a empezar al html
-// - Mostrar array en la pantalla
-// - Que la función handleclick agregue la nota al array
-// - Que el botón de play haga sonar todas las notas una después de la otra
-// - Que el botón de volver a empezar borre el array.
+/* eslint-disable no-redeclare */
+/* eslint-disable no-undef */
+/* eslint-disable no-const-assign */
 
 import React, { useState } from 'react';
 import './App.css';
+import { notas } from './notas.js';
 
+function App() {
+  const [estaSonando, setEstaSonando] = useState('');
+  const [melodia, setMelodia] = useState([]);
 
-function App() { 
+  const handleClick = (nota) => {
+    setEstaSonando(nota.nombre);
+    const sonido = new Audio(nota.link);
+    sonido.play();
 
-const [estaSonando, setEstaSonando] = useState("");
+    if (melodia) {
+      setMelodia([...melodia, nota]);
+    } else {
+      setMelodia([nota]);
+    }
 
-const notas = [
-  {
-    nombre: "Do",
-    link: require("./notes/do.wav"),
-    tieneSostenido: true,
-    tecla: "d"
-  },
-  {
-    nombre: "Re",
-    link: require("./notes/re.wav"),
-    tieneSostenido: true,
-    tecla: "f"
-  },
-  {
-    nombre: "Mi",
-    link: require("./notes/mi.wav"),
-    tecla: "g"
-  },
-  {
-    nombre: "Fa",
-    link: require("./notes/fa.wav"),
-    tieneSostenido: true,
-    tecla: "h"
-  },
-  {
-    nombre: "Sol",
-    link: require("./notes/sol.wav"),
-    tieneSostenido: true,
-    tecla: "i"
-  },
-  {
-    nombre: "La",
-    link: require("./notes/la.wav"),
-    tieneSostenido: true,
-    tecla: "j"
-  },
-  {
-    nombre: "Si",
-    link: require("./notes/si.wav"),
-    tecla: "k"
-  },
-]
+    setTimeout(() => {
+      setEstaSonando('');
+    }, 300);
+  };
 
-const handleClick = (nota) => {
-  setEstaSonando(nota.nombre);
-  const sonido = new Audio(nota.link);
-  sonido.play();
-  console.log(estaSonando);
+  const handleKeyPress = (nota) => {
+    if (e.code === 'KeyH') {
+      // Hace sonar la nota
+      setEstaSonando(nota.nombre);
+      const sonido = new Audio(nota.link);
+      sonido.play();
+      //Guarda y muestra la melodía en pantalla
+      const nuevaNota = nota.nombre;
+    }
+    if (melodia) {
+      setMelodia([...melodia, nuevaNota]);
+      var vistaMelodia = melodia.join(' ');
+    } else {
+      setMelodia([nuevaNota]);
+      var vistaMelodia = melodia.join(' ');
+    }
+    setTimeout(() => {
+      console.log(vistaMelodia);
+      console.log(melodia);
+    }, 1000);
 
-  setTimeout(() => {
-    setEstaSonando("");
-  }, 300)
-}
+    setTimeout(() => {
+      setEstaSonando('');
+    }, 300);
+  };
+
+  const tocarNota = async (melodia, nota) => {
+    console.log(melodia[nota]);
+    setEstaSonando(nota.nombre);
+    const sonido = new Audio(melodia[nota].link);
+    sonido.play();
+  };
+
+  const reproducirMelodia = async (melodia, i) => {
+    const nota = i | 0;
+    await tocarNota(melodia, nota).then(() => {
+      if (nota < melodia.length - 1) {
+        setTimeout(() => {
+          reproducirMelodia(melodia, nota + 1);
+        }, 300);
+      }
+    });
+  };
+
+  const borrarMelodia = () => {
+    console.log('Borraste la melodía');
+    setMelodia([]);
+  };
 
   return (
-    <div className="App">
-      <div className="titulo">
+    <div className='App'>
+      <div className='titulo'>
         <h1>Piano con react</h1>
-        <h2>Hecho con sueño por Ale</h2>
-          { estaSonando &&
-            <h3>Está sonando la nota {estaSonando}</h3>
-          }
+        <h2>Hecho con sueño y entusiasmo por Ale</h2>
+        {estaSonando && <h3>Está sonando la nota {estaSonando}</h3>}
       </div>
 
-      <div className="contenedor"></div>
-      {
-        notas.map(nota => {
-          return(
-            <div className={`nota ${estaSonando === nota.nombre && 'estaSonando'}`}
-            onClick={()=>handleClick(nota) }>
-              { nota.tieneSostenido && <div className="negra"></div>}
+      <div className='contenedor'>
+        {notas.map((nota) => {
+          return (
+            <div
+              className={`nota ${estaSonando === nota.nombre && 'estaSonando'}`}
+              onClick={() => handleClick(nota)}
+              onkeypress={() => handleKeyPress(nota)}
+            >
+              {nota.tieneSostenido && <div className='negra'></div>}
+              {nota.tecla}
             </div>
-          )
-        })
-      }
+          );
+        })}
+      </div>
+
+      <div className='botones'>
+        <div className='play' onClick={() => reproducirMelodia(melodia)}>
+          <p>Play</p>
+        </div>
+        <div className='borrar' onClick={() => borrarMelodia()}>
+          <p>Borrar</p>
+        </div>
+      </div>
+      <div className='display_melodia'>
+        <p>Tu melodía es {melodia.join(' ')}</p>
+      </div>
     </div>
   );
 }
