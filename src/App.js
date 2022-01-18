@@ -28,12 +28,9 @@ function App() {
 
   const handleKeyPress = (nota) => {
     if (e.code === 'KeyH') {
-      // Hace sonar la nota
       setEstaSonando(nota.nombre);
       const sonido = new Audio(nota.link);
       sonido.play();
-      //Guarda y muestra la melodía en pantalla
-      const nuevaNota = nota.nombre;
     }
     if (melodia) {
       setMelodia([...melodia, nuevaNota]);
