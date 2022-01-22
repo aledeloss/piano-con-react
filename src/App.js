@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import './App.css';
+import Acciones from './components/Acciones/Acciones';
+import { Tecla } from './components/Tecla/Tecla';
+import Encabezado from './components/Encabezado/Encabezado';
+import useTocarNota from './hooks/useTocarNota';
 import { notas } from './notas.js';
 
 function App() {
@@ -23,93 +27,74 @@ function App() {
   };
 
   const handleKeyPress = (e, nota) => {
-    if (e.code === 'KeyH') {
-      setEstaSonando(nota.nombre);
-      const sonido = new Audio(nota.link);
-      sonido.play();
-    }
-    if (melodia) {
-      setMelodia([...melodia, nota]);
-      var vistaMelodia = melodia.join(' ');
-    } else {
-      setMelodia([nota]);
-      var vistaMelodia = melodia.join(' ');
-    }
-    setTimeout(() => {
-      console.log(vistaMelodia);
-      console.log(melodia);
-    }, 1000);
-
-    setTimeout(() => {
-      setEstaSonando('');
-    }, 300);
+    // if (e.code === 'KeyH') {
+    //   setEstaSonando(nota.nombre);
+    //   const sonido = new Audio(nota.link);
+    //   sonido.play();
+    // }
+    // if (melodia) {
+    //   setMelodia([...melodia, nota]);
+    // } else {
+    //   setMelodia([nota]);
+    // }
+    // setTimeout(() => {
+    //   setEstaSonando('');
+    // }, 300);
   };
 
-  const tocarNota = async (melodia, nota) => {
-    console.log(melodia[nota]);
-    setEstaSonando(nota.nombre);
-    const sonido = new Audio(melodia[nota].link);
-    sonido.play();
-  };
+  // const tocarNotita = async (melodia, nota) => {
+  //   console.log(melodia[nota]);
+  //   setEstaSonando(nota.nombre);
+  //   const sonido = new Audio(melodia[nota].link);
+  //   sonido.play();
+  // };
 
-  const reproducirMelodia = async (melodia, i) => {
-    const nota = i | 0;
-    await tocarNota(melodia, nota).then(() => {
-      if (nota < melodia.length - 1) {
-        setTimeout(() => {
-          reproducirMelodia(melodia, nota + 1);
-        }, 300);
-      }
-    });
-  };
+  // const reproducirMelodia = async (melodia, i) => {
+  //   const nota = i | 0;
+  //   await tocarNotita(melodia, nota).then(() => {
+  //     if (nota < melodia.length - 1) {
+  //       setTimeout(() => {
+  //         reproducirMelodia(melodia, nota + 1);
+  //       }, 300);
+  //     }
+  //   });
+  // };
 
-  const renderMelodia = (melodia) => {
-    const nombresMelodia = melodia.map((nota) => {
-      return nota.nombre;
-    });
-    return nombresMelodia.join(' ');
-  };
-  console.log(typeof renderMelodia);
+  // const renderMelodia = (melodia) => {
+  //   const nombresMelodia = melodia.map((nota) => {
+  //     return nota.nombre;
+  //   });
+  //   return nombresMelodia.join(' ');
+  // };
 
-  const borrarMelodia = () => {
-    console.log('Borraste la melodía');
-    setMelodia([]);
-  };
+  // const borrarMelodia = () => {
+  //   console.log('Borraste la melodía');
+  //   setMelodia([]);
+  // };
 
   return (
     <div className='App'>
-      <div className='titulo'>
-        <h1>Piano con react</h1>
-        <h2>Hecho con sueño y entusiasmo por Ale</h2>
-        {estaSonando && <h3>Está sonando la nota {estaSonando}</h3>}
-      </div>
-
+      <Encabezado estaSonando={estaSonando} />
       <div className='contenedor'>
         {notas.map((nota) => {
           return (
-            <div
-              className={`nota ${estaSonando === nota.nombre && 'estaSonando'}`}
-              onClick={() => handleClick(nota)}
-              onkeypress={() => handleKeyPress(nota)}
-            >
-              {nota.tieneSostenido && <div className='negra'></div>}
-              {nota.tecla}
-            </div>
+            <Tecla
+              nota={nota}
+              estaSonando={estaSonando}
+              melodia={melodia}
+              setMelodia={setMelodia}
+              handleClick={handleClick}
+              handleKeyPress={handleKeyPress}
+            />
           );
         })}
       </div>
 
-      <div className='botones'>
-        <div className='play' onClick={() => reproducirMelodia(melodia)}>
-          <p>Play</p>
-        </div>
-        <div className='borrar' onClick={() => borrarMelodia()}>
-          <p>Borrar</p>
-        </div>
-      </div>
-      <div className='display_melodia'>
-        <p>Tu melodía es {melodia && renderMelodia(melodia)}</p>
-      </div>
+      <Acciones
+        melodia={melodia}
+        setMelodia={setMelodia}
+        setEstaSonando={setEstaSonando}
+      />
     </div>
   );
 }

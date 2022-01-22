@@ -19,7 +19,7 @@ body {
 }
 
 .titulo {
-  height: 200px;
+  height: 100px;
   display: flex;
   flex-direction: column;
   justify-items: center;
@@ -53,6 +53,12 @@ body {
   z-index: 9;
 }
 
+.acciones {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .play,
 .borrar {
   color: white;
@@ -75,4 +81,6 @@ body {
   width: 90%;
   height: 50px;
   line-height: 50%;
+  width: auto;
+  border-radius: 5%;
 }
