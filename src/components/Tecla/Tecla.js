@@ -34,7 +34,7 @@ export const Tecla = ({
       onkeypress={() => handleKeyPress(nota)}
     >
       {nota.tieneSostenido && <div className='negra'></div>}
-      {nota.tecla}
+      {/* {nota.tecla} */}
     </div>
   );
 };

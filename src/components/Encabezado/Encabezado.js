@@ -3,10 +3,10 @@ import '../../App.css';
 
 const Encabezado = ({ estaSonando }) => {
   return (
-    <div className='titulo'>
-      <h1>PIANULI</h1>
+    <section className='titulo'>
+      <h2>PIANULI</h2>
       {estaSonando && <h3>Está sonando la nota {estaSonando}</h3>}
-    </div>
+    </section>
   );
 };
 

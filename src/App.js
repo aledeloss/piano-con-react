@@ -42,36 +42,6 @@ function App() {
     // }, 300);
   };
 
-  // const tocarNotita = async (melodia, nota) => {
-  //   console.log(melodia[nota]);
-  //   setEstaSonando(nota.nombre);
-  //   const sonido = new Audio(melodia[nota].link);
-  //   sonido.play();
-  // };
-
-  // const reproducirMelodia = async (melodia, i) => {
-  //   const nota = i | 0;
-  //   await tocarNotita(melodia, nota).then(() => {
-  //     if (nota < melodia.length - 1) {
-  //       setTimeout(() => {
-  //         reproducirMelodia(melodia, nota + 1);
-  //       }, 300);
-  //     }
-  //   });
-  // };
-
-  // const renderMelodia = (melodia) => {
-  //   const nombresMelodia = melodia.map((nota) => {
-  //     return nota.nombre;
-  //   });
-  //   return nombresMelodia.join(' ');
-  // };
-
-  // const borrarMelodia = () => {
-  //   console.log('Borraste la melodía');
-  //   setMelodia([]);
-  // };
-
   return (
     <div className='App'>
       <Encabezado estaSonando={estaSonando} />
@@ -95,6 +65,12 @@ function App() {
         setMelodia={setMelodia}
         setEstaSonando={setEstaSonando}
       />
+      <span className='footer'>
+        Hecho con sueño y entusiasmo por{' '}
+        <a href='https://github.com/aledeloss' target='blank'>
+          Ale DeLos
+        </a>
+      </span>
     </div>
   );
 }

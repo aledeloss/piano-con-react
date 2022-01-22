@@ -34,12 +34,12 @@ const Acciones = ({ melodia, setMelodia, setEstaSonando }) => {
   return (
     <section className='acciones'>
       <div className='botones'>
-        <div className='play' onClick={() => reproducirMelodia(melodia)}>
-          <p>Play</p>
-        </div>
-        <div className='borrar' onClick={() => borrarMelodia()}>
-          <p>Borrar</p>
-        </div>
+        <button className='play' onClick={() => reproducirMelodia(melodia)}>
+          PLAY
+        </button>
+        <button className='borrar' onClick={() => borrarMelodia()}>
+          BORRAR
+        </button>
       </div>
       <div className='display_melodia'>
         <p>Tu melodía es {melodia.length > 0 && renderMelodia(melodia)}</p>
