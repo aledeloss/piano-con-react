@@ -1,7 +1,3 @@
-/* eslint-disable no-redeclare */
-/* eslint-disable no-undef */
-/* eslint-disable no-const-assign */
-
 import React, { useState } from 'react';
 import './App.css';
 import { notas } from './notas.js';
@@ -26,17 +22,17 @@ function App() {
     }, 300);
   };
 
-  const handleKeyPress = (nota) => {
+  const handleKeyPress = (e, nota) => {
     if (e.code === 'KeyH') {
       setEstaSonando(nota.nombre);
       const sonido = new Audio(nota.link);
       sonido.play();
     }
     if (melodia) {
-      setMelodia([...melodia, nuevaNota]);
+      setMelodia([...melodia, nota]);
       var vistaMelodia = melodia.join(' ');
     } else {
-      setMelodia([nuevaNota]);
+      setMelodia([nota]);
       var vistaMelodia = melodia.join(' ');
     }
     setTimeout(() => {
@@ -66,6 +62,14 @@ function App() {
       }
     });
   };
+
+  const renderMelodia = (melodia) => {
+    const nombresMelodia = melodia.map((nota) => {
+      return nota.nombre;
+    });
+    return nombresMelodia.join(' ');
+  };
+  console.log(typeof renderMelodia);
 
   const borrarMelodia = () => {
     console.log('Borraste la melodía');
@@ -104,7 +108,7 @@ function App() {
         </div>
       </div>
       <div className='display_melodia'>
-        <p>Tu melodía es {melodia.join(' ')}</p>
+        <p>Tu melodía es {melodia && renderMelodia(melodia)}</p>
       </div>
     </div>
   );
