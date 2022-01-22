@@ -2,7 +2,13 @@ import React, { useState } from 'react';
 
 import '../../App.css';
 
-export const Tecla = (nota, handleClick, handleKeyPress, melodia, setMelodia) => {
+export const Tecla = ({
+  nota,
+  handleClick,
+  handleKeyPress,
+  melodia,
+  setMelodia,
+}) => {
   const [estaSonando, setEstaSonando] = useState('');
 
   const handleClick2 = (nota) => {
@@ -24,7 +30,7 @@ export const Tecla = (nota, handleClick, handleKeyPress, melodia, setMelodia) =>
   return (
     <div
       className={`nota ${estaSonando === nota.nombre && 'estaSonando'}`}
-      onClick={() => handleClick2(nota)}
+      onClick={() => handleClick(nota)}
       onkeypress={() => handleKeyPress(nota)}
     >
       {nota.tieneSostenido && <div className='negra'></div>}
